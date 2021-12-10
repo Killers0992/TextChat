@@ -45,7 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddonConfig.cs" />
+    <Compile Include="Commands\GlobalCommand.cs" />
     <Compile Include="Commands\SendCommand.cs" />
+    <Compile Include="RemoteAddonConfig.cs" />
     <Compile Include="TextChatDedicated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextChatHandler.cs" />

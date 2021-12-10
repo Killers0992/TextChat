@@ -5,16 +5,18 @@ using NetworkedPlugins.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace TextChat.Commands
 {
-    public class SendCommand : ICommand
+    public class GlobalCommand : ICommand
     {
-        public string CommandName { get; } = "S";
+        public string CommandName { get; } = "SG";
 
-        public string Description { get; } = "Send textchat message.";
+        public string Description { get; } = "Send global textchat message.";
 
-        public string Permission { get; } =  "";
+        public string Permission { get; } = "";
 
         public CommandType Type { get; } = CommandType.GameConsole;
 
@@ -22,34 +24,28 @@ namespace TextChat.Commands
         {
             if (arguments.Length == 0)
             {
-                player.SendConsoleMessage($"Syntax: .s <message>");
+                player.SendConsoleMessage($"Syntax: .sg <message>", "Global TextChat");
                 return;
             }
-
-            var playerOnServer = TextChatDedicated.singleton.GetServers().FirstOrDefault(p => p.GetPlayer(player.UserID) != null);
-            if (playerOnServer == null)
-                return;
 
             string filterMessage = (string.Join(" ", arguments)).Replace("<", "＜").Replace(">", "＞").Replace("\n", string.Empty).Replace("\r", string.Empty).Trim();
 
             if (string.IsNullOrEmpty(filterMessage))
             {
-                player.SendConsoleMessage($"Message cant be empty!", "TextChat", "RED");
+                player.SendConsoleMessage($"Message cant be empty!", "Global TextChat", "RED");
                 return;
             }
 
-            foreach (var server in TextChatDedicated.singleton.GetServers())
+            foreach (var server in TextChatDedicated.singleton.GetAllServers())
             {
                 var addon = server.GetAddon(TextChatDedicated.singleton.AddonId) as TextChatDedicated;
 
-                foreach(var plr in server.Players)
+                foreach (var plr in server.Players)
                 {
-                    plr.SendConsoleMessage(addon.RemoteConfig.LocalMessageFormat
+                    plr.SendConsoleMessage(addon.RemoteConfig.GlobalMessageFormat
                         .Replace("%serverName%", player.Server.ServerConfig.ServerName)
                         .Replace("%serverIp%", player.Server.ServerAddress)
                         .Replace("%serverPort%", player.Server.ServerPort.ToString())
-                        .Replace("%rankColor%", player.RankColor)
-                        .Replace("%rankName%", string.IsNullOrEmpty(player.RankName) ? "USER" : $"<b>{player.RankName.ToUpper()}</b>")
                         .Replace("%nickname%", player.Nickname)
                         .Replace("%message%", filterMessage), "", "BLACK");
                 }

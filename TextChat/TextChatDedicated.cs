@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace TextChat
 {
-    public class TextChatDedicated : NPAddonDedicated<AddonConfig, AddonConfig>
+    public class TextChatDedicated : NPAddonDedicated<AddonConfig, RemoteAddonConfig>
     {
         public override string AddonAuthor { get; } = "Killers0992";
         public override string AddonId { get; } = "mg4vj5MqbV3CaA3j";
