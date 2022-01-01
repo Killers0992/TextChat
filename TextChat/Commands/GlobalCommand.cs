@@ -38,7 +38,7 @@ namespace TextChat.Commands
 
             foreach (var server in TextChatDedicated.singleton.GetAllServers())
             {
-                var addon = server.GetAddon(TextChatDedicated.singleton.AddonId) as TextChatDedicated;
+                var addon = server.GetAddon<TextChatDedicated>(TextChatDedicated.singleton.AddonId);
 
                 foreach (var plr in server.Players)
                 {

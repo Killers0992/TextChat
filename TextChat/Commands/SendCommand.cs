@@ -26,10 +26,6 @@ namespace TextChat.Commands
                 return;
             }
 
-            var playerOnServer = TextChatDedicated.singleton.GetServers().FirstOrDefault(p => p.GetPlayer(player.UserID) != null);
-            if (playerOnServer == null)
-                return;
-
             string filterMessage = (string.Join(" ", arguments)).Replace("<", "＜").Replace(">", "＞").Replace("\n", string.Empty).Replace("\r", string.Empty).Trim();
 
             if (string.IsNullOrEmpty(filterMessage))
@@ -40,7 +36,7 @@ namespace TextChat.Commands
 
             foreach (var server in TextChatDedicated.singleton.GetServers())
             {
-                var addon = server.GetAddon(TextChatDedicated.singleton.AddonId) as TextChatDedicated;
+                var addon = server.GetAddon<TextChatDedicated>(TextChatDedicated.singleton.AddonId);
 
                 foreach(var plr in server.Players)
                 {
